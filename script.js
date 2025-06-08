@@ -34,7 +34,7 @@
 
   async function loadSnippets() {
     try {
-      const res = await fetch('https://raw.githubusercontent.com/SeptianXcz/vdb/main/snippets.json');
+      const res = await fetch('https://raw.githubusercontent.com/Carlotta-gf/Codelabs/main/snippets.json');
       const snippets = await res.json();
 
       container.innerHTML = '';
