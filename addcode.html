@@ -1,5 +1,456 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Add Code Snippet - CodeLab</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fira+Code&family=Inter:wght@600;800&display=swap');
+
+    :root {
+      --color-bg: #ffffff;
+      --color-text-primary: #111827;
+      --color-text-secondary: #6b7280;
+      --color-accent: #111827;
+      --transition-speed: 0.3s;
+      --border-radius: 0.75rem;
+      --max-width: 1200px;
+      --btn-bg: #111827;
+      --btn-hover-bg: #2563eb;
+      --btn-color: #fff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--color-bg);
+      font-family: 'Inter', sans-serif;
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+      font-size: 18px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    a {
+      color: var(--color-accent);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color var(--transition-speed);
+    }
+    a:hover,
+    a:focus {
+      color: var(--btn-hover-bg);
+      outline: none;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      background: var(--color-bg);
+      border-bottom: 1px solid #e5e7eb;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgb(0 0 0 / 0.05);
+      padding: 1rem 2rem;
+    }
+
+    .nav-container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--color-text-primary);
+      letter-spacing: 0.05em;
+      user-select: none;
+      cursor: default;
+    }
+
+    nav {
+      display: flex;
+      gap: 2rem;
+    }
+
+    nav ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    nav li {
+      position: relative;
+    }
+
+    nav > ul > li > a {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--color-accent);
+      cursor: pointer;
+      user-select: none;
+      padding: 0.25rem 0;
+    }
+
+    nav > ul > li > a:hover,
+    nav > ul > li > a:focus {
+      color: var(--btn-hover-bg);
+      outline: none;
+    }
+
+    main {
+      max-width: var(--max-width);
+      margin: 3rem auto 6rem;
+      padding: 0 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    h1 {
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    form {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      background: #fafafa;
+      padding: 2rem 2rem;
+      border-radius: var(--border-radius);
+      box-shadow: 0 8px 20px rgb(0 0 0 / 0.05);
+    }
+
+    label {
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--color-text-primary);
+    }
+
+    input[type="text"] {
+      font-size: 1rem;
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      border: 1px solid #d1d5db;
+      color: #111827;
+      background: white;
+      transition: border-color 0.3s;
+    }
+    input[type="text"]:focus {
+      border-color: #2563eb;
+      outline: none;
+      box-shadow: 0 0 0 3px rgb(37 99 235 / 0.3);
+    }
+
+    textarea {
+      font-family: 'Fira Code', monospace, monospace;
+      font-size: 1rem;
+      line-height: 1.5;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      border: 1px solid #d1d5db;
+      resize: vertical;
+      min-height: 140px;
+      color: #111827;
+      background-color: white;
+      transition: border-color 0.3s;
+    }
+    textarea:focus {
+      border-color: #2563eb;
+      outline: none;
+      box-shadow: 0 0 0 3px rgb(37 99 235 / 0.3);
+    }
+    .btn-submit {
+      align-self: flex-start;
+      background-color: var(--btn-bg);
+      color: var(--btn-color);
+      font-weight: 700;
+      font-size: 1rem;
+      border: none;
+      padding: 0.75rem 2rem;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: background-color 0.3s;
+      user-select: none;
+    }
+    .btn-submit:hover,
+    .btn-submit:focus {
+      background-color: var(--btn-hover-bg);
+      outline: none;
+    }
+    #message {
+      color: #4ade80;
+      font-weight: 600;
+      font-size: 1rem;
+      height: 1.2rem;
+      margin-top: 0.5rem;
+      transition: opacity 0.3s ease-in-out;
+      opacity: 0;
+      text-align: center;
+    }
+
+    .code-boxes-container {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .code-box {
+      position: relative;
+      background: #1e1e1e;
+      border-radius: var(--border-radius);
+      box-shadow: 0 8px 24px rgb(31 38 135 / 0.37);
+      font-family: 'Fira Code', monospace;
+      color: #d4d4d4;
+      font-size: 1rem;
+      padding: 1.5rem 1.5rem 3rem;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .code-title {
+      font-weight: 700;
+      font-size: 1.125rem;
+      color: #fff;
+      margin-bottom: 0.75rem;
+      user-select: text;
+    }
+
+    .copy-button {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: #2d2d2d;
+      border: none;
+      border-radius: 0.375rem;
+      padding: 0.3rem 0.7rem;
+      cursor: pointer;
+      color: #d4d4d4;
+      transition: background-color 0.3s, transform 0.3s;
+      user-select: none;
+      z-index: 10;
+    }
+
+    .copy-button:hover,
+    .copy-button:focus {
+      background: #3c3c3c;
+      transform: scale(1.1);
+      outline: none;
+    }
+
+    .copy-button svg {
+      width: 18px;
+      height: 18px;
+      stroke-width: 1.5;
+      stroke: currentColor;
+    }
+
+    .copy-feedback {
+      position: absolute;
+      top: 1rem;
+      right: 4.5rem;
+      color: #4ade80;
+      font-weight: 700;
+      font-size: 0.875rem;
+      user-select: none;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease-in-out;
+      z-index: 10;
+    }
+
+    .copy-feedback.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav-container" role="navigation" aria-label="Primary navigation">
+      <div class="logo" tabindex="0">CodeLab</div>
+      <nav aria-label="Primary Navigation">
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="docs.html">Docs</a></li>
+          <li><a href="support.html">Support</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="hero" aria-label="Hero section">
+      <h1>Build your Component Library</h1>
+      <p>Create elegant, reusable, and accessible UI components with ease.</p>
+      <button class="btn-primary" type="button" aria-label="Get Started">Get Started</button>
+    </section>
+
+    <!-- Form to add code with Name -->
+    <section aria-label="Add code snippet form" style="max-width:900px; margin: 0 auto;">
+      <form id="codeForm" novalidate>
+        <label for="codeName" style="font-weight:700;font-size:1.25rem;color:#111827;display:block;margin-bottom:0.5rem;">Code Name</label>
+        <input id="codeName" name="codeName" type="text" placeholder="Name your code snippet" required aria-required="true" style="width: 100%; padding: 0.75rem 1rem; border-radius: 0.5rem; border: 1px solid #d1d5db; font-size: 1rem; margin-bottom:1rem;" />
+
+        <label for="codeInput" style="font-weight:700;font-size:1.25rem;color:#111827;display:block;margin-bottom:0.5rem;">Code Snippet</label>
+        <textarea id="codeInput" name="codeInput" rows="8" placeholder="Paste your code here..." aria-required="true" required spellcheck="false" style="width:100%; font-family: 'Fira Code', monospace; font-size: 1rem; line-height: 1.5; padding:1rem; border-radius:0.5rem; border:1px solid #d1d5db; resize:vertical; color:#111827; background:#fff; transition:border-color 0.3s;"></textarea>
+
+        <button type="submit" class="btn-submit" style="margin-top:1rem; background:#111827; color:#fff; font-weight:700; font-size:1rem; padding:0.75rem 2rem; border:none; border-radius:0.75rem; cursor:pointer; user-select:none; transition: background-color 0.3s;">
+          Add Code
+        </button>
+        <p id="message" role="alert" style="color:#4ade80; font-weight:600; font-size:1rem; height:1.2rem; margin-top:0.5rem;"></p>
+      </form>
+    </section>
+
+    <!-- Container for dynamically added code boxes -->
+    <section id="codeBoxesContainer" class="code-boxes-container" aria-live="polite" aria-atomic="true"></section>
+  </main>
+
 <script>
-<!--
-document.write(unescape("%3C%21DOCTYPE%20html%3E%0A%3Chtml%20lang%3D%22en%22%20%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22UTF-8%22%20/%3E%0A%20%20%3Cmeta%20name%3D%22viewport%22%20content%3D%22width%3Ddevice-width%2C%20initial-scale%3D1%22%20/%3E%0A%20%20%3Ctitle%3EAdd%20Code%20Snippet%20-%20CodeLab%3C/title%3E%0A%20%20%3Cstyle%3E%0A%20%20%20%20@import%20url%28%27https%3A//fonts.googleapis.com/css2%3Ffamily%3DFira+Code%26family%3DInter%3Awght@600%3B800%26display%3Dswap%27%29%3B%0A%0A%20%20%20%20%3Aroot%20%7B%0A%20%20%20%20%20%20--color-bg%3A%20%23ffffff%3B%0A%20%20%20%20%20%20--color-text-primary%3A%20%23111827%3B%0A%20%20%20%20%20%20--color-text-secondary%3A%20%236b7280%3B%0A%20%20%20%20%20%20--color-accent%3A%20%23111827%3B%0A%20%20%20%20%20%20--transition-speed%3A%200.3s%3B%0A%20%20%20%20%20%20--border-radius%3A%200.75rem%3B%0A%20%20%20%20%20%20--max-width%3A%201200px%3B%0A%20%20%20%20%20%20--btn-bg%3A%20%23111827%3B%0A%20%20%20%20%20%20--btn-hover-bg%3A%20%232563eb%3B%0A%20%20%20%20%20%20--btn-color%3A%20%23fff%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20*%20%7B%0A%20%20%20%20%20%20box-sizing%3A%20border-box%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20body%20%7B%0A%20%20%20%20%20%20margin%3A%200%3B%0A%20%20%20%20%20%20background%3A%20var%28--color-bg%29%3B%0A%20%20%20%20%20%20font-family%3A%20%27Inter%27%2C%20sans-serif%3B%0A%20%20%20%20%20%20color%3A%20var%28--color-text-secondary%29%3B%0A%20%20%20%20%20%20line-height%3A%201.6%3B%0A%20%20%20%20%20%20font-size%3A%2018px%3B%0A%20%20%20%20%20%20min-height%3A%20100vh%3B%0A%20%20%20%20%20%20display%3A%20flex%3B%0A%20%20%20%20%20%20flex-direction%3A%20column%3B%0A%20%20%20%20%20%20-webkit-font-smoothing%3A%20antialiased%3B%0A%20%20%20%20%20%20-moz-osx-font-smoothing%3A%20grayscale%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20a%20%7B%0A%20%20%20%20%20%20color%3A%20var%28--color-accent%29%3B%0A%20%20%20%20%20%20text-decoration%3A%20none%3B%0A%20%20%20%20%20%20font-weight%3A%20600%3B%0A%20%20%20%20%20%20transition%3A%20color%20var%28--transition-speed%29%3B%0A%20%20%20%20%7D%0A%20%20%20%20a%3Ahover%2C%0A%20%20%20%20a%3Afocus%20%7B%0A%20%20%20%20%20%20color%3A%20var%28--btn-hover-bg%29%3B%0A%20%20%20%20%20%20outline%3A%20none%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20header%20%7B%0A%20%20%20%20%20%20position%3A%20sticky%3B%0A%20%20%20%20%20%20top%3A%200%3B%0A%20%20%20%20%20%20background%3A%20var%28--color-bg%29%3B%0A%20%20%20%20%20%20border-bottom%3A%201px%20solid%20%23e5e7eb%3B%0A%20%20%20%20%20%20z-index%3A%201000%3B%0A%20%20%20%20%20%20box-shadow%3A%200%202px%205px%20rgb%280%200%200%20/%200.05%29%3B%0A%20%20%20%20%20%20padding%3A%201rem%202rem%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20.nav-container%20%7B%0A%20%20%20%20%20%20max-width%3A%20var%28--max-width%29%3B%0A%20%20%20%20%20%20margin%3A%200%20auto%3B%0A%20%20%20%20%20%20display%3A%20flex%3B%0A%20%20%20%20%20%20align-items%3A%20center%3B%0A%20%20%20%20%20%20justify-content%3A%20space-between%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20.logo%20%7B%0A%20%20%20%20%20%20font-size%3A%201.5rem%3B%0A%20%20%20%20%20%20font-weight%3A%20800%3B%0A%20%20%20%20%20%20color%3A%20var%28--color-text-primary%29%3B%0A%20%20%20%20%20%20letter-spacing%3A%200.05em%3B%0A%20%20%20%20%20%20user-select%3A%20none%3B%0A%20%20%20%20%20%20cursor%3A%20default%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20nav%20%7B%0A%20%20%20%20%20%20display%3A%20flex%3B%0A%20%20%20%20%20%20gap%3A%202rem%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20nav%20ul%20%7B%0A%20%20%20%20%20%20margin%3A%200%3B%0A%20%20%20%20%20%20padding%3A%200%3B%0A%20%20%20%20%20%20list-style%3A%20none%3B%0A%20%20%20%20%20%20display%3A%20flex%3B%0A%20%20%20%20%20%20gap%3A%202rem%3B%0A%20%20%20%20%20%20align-items%3A%20center%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20nav%20li%20%7B%0A%20%20%20%20%20%20position%3A%20relative%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20nav%20%3E%20ul%20%3E%20li%20%3E%20a%20%7B%0A%20%20%20%20%20%20font-size%3A%201rem%3B%0A%20%20%20%20%20%20font-weight%3A%20600%3B%0A%20%20%20%20%20%20color%3A%20var%28--color-accent%29%3B%0A%20%20%20%20%20%20cursor%3A%20pointer%3B%0A%20%20%20%20%20%20user-select%3A%20none%3B%0A%20%20%20%20%20%20padding%3A%200.25rem%200%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20nav%20%3E%20ul%20%3E%20li%20%3E%20a%3Ahover%2C%0A%20%20%20%20nav%20%3E%20ul%20%3E%20li%20%3E%20a%3Afocus%20%7B%0A%20%20%20%20%20%20color%3A%20var%28--btn-hover-bg%29%3B%0A%20%20%20%20%20%20outline%3A%20none%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20main%20%7B%0A%20%20%20%20%20%20max-width%3A%20var%28--max-width%29%3B%0A%20%20%20%20%20%20margin%3A%203rem%20auto%206rem%3B%0A%20%20%20%20%20%20padding%3A%200%202rem%3B%0A%20%20%20%20%20%20display%3A%20flex%3B%0A%20%20%20%20%20%20flex-direction%3A%20column%3B%0A%20%20%20%20%20%20gap%3A%202rem%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20h1%20%7B%0A%20%20%20%20%20%20font-size%3A%2048px%3B%0A%20%20%20%20%20%20font-weight%3A%20700%3B%0A%20%20%20%20%20%20color%3A%20var%28--color-text-primary%29%3B%0A%20%20%20%20%20%20margin-bottom%3A%201rem%3B%0A%20%20%20%20%20%20text-align%3A%20center%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20form%20%7B%0A%20%20%20%20%20%20max-width%3A%20900px%3B%0A%20%20%20%20%20%20margin%3A%200%20auto%3B%0A%20%20%20%20%20%20display%3A%20flex%3B%0A%20%20%20%20%20%20flex-direction%3A%20column%3B%0A%20%20%20%20%20%20gap%3A%201rem%3B%0A%20%20%20%20%20%20background%3A%20%23fafafa%3B%0A%20%20%20%20%20%20padding%3A%202rem%201.5rem%3B%0A%20%20%20%20%20%20border-radius%3A%20var%28--border-radius%29%3B%0A%20%20%20%20%20%20box-shadow%3A%200%208px%2020px%20rgb%280%200%200%20/%200.05%29%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20label%20%7B%0A%20%20%20%20%20%20font-weight%3A%20700%3B%0A%20%20%20%20%20%20font-size%3A%201.25rem%3B%0A%20%20%20%20%20%20color%3A%20var%28--color-text-primary%29%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20input%5Btype%3D%22text%22%5D%20%7B%0A%20%20%20%20%20%20font-size%3A%201rem%3B%0A%20%20%20%20%20%20padding%3A%200.75rem%201rem%3B%0A%20%20%20%20%20%20border-radius%3A%200.5rem%3B%0A%20%20%20%20%20%20border%3A%201px%20solid%20%23d1d5db%3B%0A%20%20%20%20%20%20color%3A%20%23111827%3B%0A%20%20%20%20%20%20background%3A%20white%3B%0A%20%20%20%20%20%20transition%3A%20border-color%200.3s%3B%0A%20%20%20%20%7D%0A%20%20%20%20input%5Btype%3D%22text%22%5D%3Afocus%20%7B%0A%20%20%20%20%20%20border-color%3A%20%232563eb%3B%0A%20%20%20%20%20%20outline%3A%20none%3B%0A%20%20%20%20%20%20box-shadow%3A%200%200%200%203px%20rgb%2837%2099%20235%20/%200.3%29%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20textarea%20%7B%0A%20%20%20%20%20%20font-family%3A%20%27Fira%20Code%27%2C%20monospace%2C%20monospace%3B%0A%20%20%20%20%20%20font-size%3A%201rem%3B%0A%20%20%20%20%20%20line-height%3A%201.5%3B%0A%20%20%20%20%20%20padding%3A%201rem%3B%0A%20%20%20%20%20%20border-radius%3A%200.5rem%3B%0A%20%20%20%20%20%20border%3A%201px%20solid%20%23d1d5db%3B%0A%20%20%20%20%20%20resize%3A%20vertical%3B%0A%20%20%20%20%20%20min-height%3A%20140px%3B%0A%20%20%20%20%20%20color%3A%20%23111827%3B%0A%20%20%20%20%20%20background-color%3A%20white%3B%0A%20%20%20%20%20%20transition%3A%20border-color%200.3s%3B%0A%20%20%20%20%7D%0A%20%20%20%20textarea%3Afocus%20%7B%0A%20%20%20%20%20%20border-color%3A%20%232563eb%3B%0A%20%20%20%20%20%20outline%3A%20none%3B%0A%20%20%20%20%20%20box-shadow%3A%200%200%200%203px%20rgb%2837%2099%20235%20/%200.3%29%3B%0A%20%20%20%20%7D%0A%20%20%20%20.btn-submit%20%7B%0A%20%20%20%20%20%20align-self%3A%20flex-start%3B%0A%20%20%20%20%20%20background-color%3A%20var%28--btn-bg%29%3B%0A%20%20%20%20%20%20color%3A%20var%28--btn-color%29%3B%0A%20%20%20%20%20%20font-weight%3A%20700%3B%0A%20%20%20%20%20%20font-size%3A%201rem%3B%0A%20%20%20%20%20%20border%3A%20none%3B%0A%20%20%20%20%20%20padding%3A%200.75rem%202rem%3B%0A%20%20%20%20%20%20border-radius%3A%20var%28--border-radius%29%3B%0A%20%20%20%20%20%20cursor%3A%20pointer%3B%0A%20%20%20%20%20%20transition%3A%20background-color%200.3s%3B%0A%20%20%20%20%20%20user-select%3A%20none%3B%0A%20%20%20%20%7D%0A%20%20%20%20.btn-submit%3Ahover%2C%0A%20%20%20%20.btn-submit%3Afocus%20%7B%0A%20%20%20%20%20%20background-color%3A%20var%28--btn-hover-bg%29%3B%0A%20%20%20%20%20%20outline%3A%20none%3B%0A%20%20%20%20%7D%0A%20%20%20%20%23message%20%7B%0A%20%20%20%20%20%20color%3A%20%234ade80%3B%0A%20%20%20%20%20%20font-weight%3A%20600%3B%0A%20%20%20%20%20%20font-size%3A%201rem%3B%0A%20%20%20%20%20%20height%3A%201.25rem%3B%0A%20%20%20%20%20%20margin-top%3A%200.5rem%3B%0A%20%20%20%20%20%20transition%3A%20opacity%200.3s%20ease-in-out%3B%0A%20%20%20%20%20%20opacity%3A%200%3B%0A%20%20%20%20%20%20text-align%3A%20center%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20.code-boxes-container%20%7B%0A%20%20%20%20%20%20max-width%3A%20900px%3B%0A%20%20%20%20%20%20margin%3A%200%20auto%3B%0A%20%20%20%20%20%20display%3A%20flex%3B%0A%20%20%20%20%20%20flex-direction%3A%20column%3B%0A%20%20%20%20%20%20gap%3A%201.5rem%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20.code-box%20%7B%0A%20%20%20%20%20%20position%3A%20relative%3B%0A%20%20%20%20%20%20background%3A%20%231e1e1e%3B%0A%20%20%20%20%20%20border-radius%3A%20var%28--border-radius%29%3B%0A%20%20%20%20%20%20box-shadow%3A%200%208px%2024px%20rgb%2831%2038%20135%20/%200.37%29%3B%0A%20%20%20%20%20%20font-family%3A%20%27Fira%20Code%27%2C%20monospace%3B%0A%20%20%20%20%20%20color%3A%20%23d4d4d4%3B%0A%20%20%20%20%20%20font-size%3A%201rem%3B%0A%20%20%20%20%20%20padding%3A%201.5rem%201.5rem%203rem%3B%0A%20%20%20%20%20%20overflow-x%3A%20auto%3B%0A%20%20%20%20%20%20white-space%3A%20pre-wrap%3B%0A%20%20%20%20%20%20word-wrap%3A%20break-word%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20.copy-button%20%7B%0A%20%20%20%20%20%20position%3A%20absolute%3B%0A%20%20%20%20%20%20top%3A%201rem%3B%0A%20%20%20%20%20%20right%3A%201rem%3B%0A%20%20%20%20%20%20background%3A%20%232d2d2d%3B%0A%20%20%20%20%20%20border%3A%20none%3B%0A%20%20%20%20%20%20border-radius%3A%200.375rem%3B%0A%20%20%20%20%20%20padding%3A%200.3rem%200.7rem%3B%0A%20%20%20%20%20%20cursor%3A%20pointer%3B%0A%20%20%20%20%20%20color%3A%20%23d4d4d4%3B%0A%20%20%20%20%20%20transition%3A%20background-color%200.3s%2C%20transform%200.3s%3B%0A%20%20%20%20%20%20user-select%3A%20none%3B%0A%20%20%20%20%20%20z-index%3A%2010%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20.copy-button%3Ahover%2C%0A%20%20%20%20.copy-button%3Afocus%20%7B%0A%20%20%20%20%20%20background%3A%20%233c3c3c%3B%0A%20%20%20%20%20%20transform%3A%20scale%281.1%29%3B%0A%20%20%20%20%20%20outline%3A%20none%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20.copy-button%20svg%20%7B%0A%20%20%20%20%20%20width%3A%2018px%3B%0A%20%20%20%20%20%20height%3A%2018px%3B%0A%20%20%20%20%20%20stroke-width%3A%201.5%3B%0A%20%20%20%20%20%20stroke%3A%20currentColor%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20.copy-feedback%20%7B%0A%20%20%20%20%20%20position%3A%20absolute%3B%0A%20%20%20%20%20%20top%3A%201rem%3B%0A%20%20%20%20%20%20right%3A%204.5rem%3B%0A%20%20%20%20%20%20color%3A%20%234ade80%3B%0A%20%20%20%20%20%20font-weight%3A%20700%3B%0A%20%20%20%20%20%20font-size%3A%200.875rem%3B%0A%20%20%20%20%20%20user-select%3A%20none%3B%0A%20%20%20%20%20%20opacity%3A%200%3B%0A%20%20%20%20%20%20pointer-events%3A%20none%3B%0A%20%20%20%20%20%20transition%3A%20opacity%200.3s%20ease-in-out%3B%0A%20%20%20%20%20%20z-index%3A%2010%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20.copy-feedback.visible%20%7B%0A%20%20%20%20%20%20opacity%3A%201%3B%0A%20%20%20%20%20%20pointer-events%3A%20auto%3B%0A%20%20%20%20%7D%0A%20%20%3C/style%3E%0A%3C/head%3E%0A%3Cbody%3E%0A%20%20%3Cheader%3E%0A%20%20%20%20%3Cdiv%20class%3D%22nav-container%22%20role%3D%22navigation%22%20aria-label%3D%22Primary%20navigation%22%3E%0A%20%20%20%20%20%20%3Cdiv%20class%3D%22logo%22%20tabindex%3D%220%22%3ECodeLab%3C/div%3E%0A%20%20%20%20%20%20%3Cnav%20aria-label%3D%22Primary%20Navigation%22%3E%0A%20%20%20%20%20%20%20%20%3Cul%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cli%3E%3Ca%20href%3D%22%23features%22%3EFeatures%3C/a%3E%3C/li%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cli%3E%3Ca%20href%3D%22docs.html%22%3EDocs%3C/a%3E%3C/li%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cli%3E%3Ca%20href%3D%22support.html%22%3ESupport%3C/a%3E%3C/li%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cli%3E%3Ca%20href%3D%22contact.html%22%3EContact%3C/a%3E%3C/li%3E%0A%20%20%20%20%20%20%20%20%3C/ul%3E%0A%20%20%20%20%20%20%3C/nav%3E%0A%20%20%20%20%3C/div%3E%0A%20%20%3C/header%3E%0A%20%20%3Cmain%3E%0A%20%20%20%20%3Csection%20class%3D%22hero%22%20aria-label%3D%22Hero%20section%22%3E%0A%20%20%20%20%20%20%3Ch1%3EBuild%20your%20Component%20Library%3C/h1%3E%0A%20%20%20%20%20%20%3Cp%3ECreate%20elegant%2C%20reusable%2C%20and%20accessible%20UI%20components%20with%20ease.%3C/p%3E%0A%20%20%20%20%20%20%3Cbutton%20class%3D%22btn-primary%22%20type%3D%22button%22%20aria-label%3D%22Get%20Started%22%3EGet%20Started%3C/button%3E%0A%20%20%20%20%3C/section%3E%0A%0A%20%20%20%20%3C%21--%20Form%20to%20add%20code%20with%20Name%20--%3E%0A%20%20%20%20%3Csection%20aria-label%3D%22Add%20code%20snippet%20form%22%20style%3D%22max-width%3A900px%3B%20margin%3A%200%20auto%3B%22%3E%0A%20%20%20%20%20%20%3Cform%20id%3D%22codeForm%22%20novalidate%3E%0A%20%20%20%20%20%20%20%20%3Clabel%20for%3D%22codeName%22%20style%3D%22font-weight%3A700%3Bfont-size%3A1.25rem%3Bcolor%3A%23111827%3Bdisplay%3Ablock%3Bmargin-bottom%3A0.5rem%3B%22%3ECode%20Name%3C/label%3E%0A%20%20%20%20%20%20%20%20%3Cinput%20id%3D%22codeName%22%20name%3D%22codeName%22%20type%3D%22text%22%20placeholder%3D%22Name%20your%20code%20snippet%22%20required%20aria-required%3D%22true%22%20style%3D%22width%3A%20100%25%3B%20padding%3A%200.75rem%201rem%3B%20border-radius%3A%200.5rem%3B%20border%3A%201px%20solid%20%23d1d5db%3B%20font-size%3A%201rem%3B%20margin-bottom%3A1rem%3B%22%20/%3E%0A%0A%20%20%20%20%20%20%20%20%3Clabel%20for%3D%22codeInput%22%20style%3D%22font-weight%3A700%3Bfont-size%3A1.25rem%3Bcolor%3A%23111827%3Bdisplay%3Ablock%3Bmargin-bottom%3A0.5rem%3B%22%3ECode%20Snippet%3C/label%3E%0A%20%20%20%20%20%20%20%20%3Ctextarea%20id%3D%22codeInput%22%20name%3D%22codeInput%22%20rows%3D%228%22%20placeholder%3D%22Paste%20your%20code%20here...%22%20aria-required%3D%22true%22%20required%20spellcheck%3D%22false%22%20style%3D%22width%3A100%25%3B%20font-family%3A%20%27Fira%20Code%27%2C%20monospace%3B%20font-size%3A%201rem%3B%20line-height%3A%201.5%3B%20padding%3A1rem%3B%20border-radius%3A0.5rem%3B%20border%3A1px%20solid%20%23d1d5db%3B%20resize%3Avertical%3B%20color%3A%23111827%3B%20background%3A%23fff%3B%20transition%3Aborder-color%200.3s%3B%22%3E%3C/textarea%3E%0A%0A%20%20%20%20%20%20%20%20%3Cbutton%20type%3D%22submit%22%20class%3D%22btn-submit%22%20style%3D%22margin-top%3A1rem%3B%20background%3A%23111827%3B%20color%3A%23fff%3B%20font-weight%3A700%3B%20font-size%3A1rem%3B%20padding%3A0.75rem%202rem%3B%20border%3Anone%3B%20border-radius%3A0.75rem%3B%20cursor%3Apointer%3B%20user-select%3Anone%3B%20transition%3A%20background-color%200.3s%3B%22%3E%0A%20%20%20%20%20%20%20%20%20%20Add%20Code%0A%20%20%20%20%20%20%20%20%3C/button%3E%0A%20%20%20%20%20%20%20%20%3Cp%20id%3D%22message%22%20role%3D%22alert%22%20style%3D%22color%3A%234ade80%3B%20font-weight%3A600%3B%20font-size%3A1rem%3B%20height%3A1.2rem%3B%20margin-top%3A0.5rem%3B%22%3E%3C/p%3E%0A%20%20%20%20%20%20%3C/form%3E%0A%20%20%20%20%3C/section%3E%0A%0A%20%20%20%20%3C%21--%20Container%20for%20dynamically%20added%20code%20boxes%20--%3E%0A%20%20%20%20%3Csection%20id%3D%22codeBoxesContainer%22%20class%3D%22code-boxes-container%22%20aria-live%3D%22polite%22%20aria-atomic%3D%22true%22%3E%3C/section%3E%0A%20%20%3C/main%3E%0A%0A%3Cscript%3E%0A%20%20document.addEventListener%28%27DOMContentLoaded%27%2C%20%28%29%20%3D%3E%20%7B%0A%20%20%20%20const%20form%20%3D%20document.getElementById%28%27codeForm%27%29%3B%0A%20%20%20%20const%20textarea%20%3D%20document.getElementById%28%27codeInput%27%29%3B%0A%20%20%20%20const%20codeNameInput%20%3D%20document.getElementById%28%27codeName%27%29%3B%0A%20%20%20%20const%20container%20%3D%20document.getElementById%28%27codeBoxesContainer%27%29%3B%0A%20%20%20%20const%20message%20%3D%20document.getElementById%28%27message%27%29%3B%0A%0A%20%20%20%20const%20STORAGE_KEY%20%3D%20%27savedCodeSnippetsWithName%27%3B%0A%0A%20%20%20%20function%20createCodeBox%28name%2C%20code%29%20%7B%0A%20%20%20%20%20%20const%20box%20%3D%20document.createElement%28%27div%27%29%3B%0A%20%20%20%20%20%20box.className%20%3D%20%27code-box%27%3B%0A%20%20%20%20%20%20box.setAttribute%28%27tabindex%27%2C%20%270%27%29%3B%0A%20%20%20%20%20%20box.setAttribute%28%27aria-label%27%2C%20%60Code%20snippet%20titled%20%24%7Bname%7D%60%29%3B%0A%0A%20%20%20%20%20%20const%20title%20%3D%20document.createElement%28%27div%27%29%3B%0A%20%20%20%20%20%20title.style.fontWeight%20%3D%20%22700%22%3B%0A%20%20%20%20%20%20title.style.marginBottom%20%3D%20%220.5rem%22%3B%0A%20%20%20%20%20%20title.style.color%20%3D%20%22%23fff%22%3B%0A%20%20%20%20%20%20title.style.fontSize%20%3D%20%221.125rem%22%3B%0A%20%20%20%20%20%20title.textContent%20%3D%20name%3B%0A%0A%20%20%20%20%20%20const%20pre%20%3D%20document.createElement%28%27pre%27%29%3B%0A%20%20%20%20%20%20pre.textContent%20%3D%20code%3B%0A%0A%20%20%20%20%20%20const%20copyBtn%20%3D%20document.createElement%28%27button%27%29%3B%0A%20%20%20%20%20%20copyBtn.type%20%3D%20%27button%27%3B%0A%20%20%20%20%20%20copyBtn.className%20%3D%20%27copy-button%27%3B%0A%20%20%20%20%20%20copyBtn.setAttribute%28%27aria-label%27%2C%20%60Copy%20code%20snippet%20titled%20%24%7Bname%7D%20to%20clipboard%60%29%3B%0A%20%20%20%20%20%20copyBtn.innerHTML%20%3D%20%60%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20fill%3D%22none%22%20viewBox%3D%220%200%2024%2024%22%20stroke%3D%22currentColor%22%20aria-hidden%3D%22true%22%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cpath%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%222%22%20d%3D%22M9%2012h6m-3-3v6m-4%204h10a2%202%200%20002-2V7a2%202%200%2000-2-2h-3l-2-2h-3a2%202%200%2000-2%202v3%22%20/%3E%0A%20%20%20%20%20%20%20%20%3C/svg%3E%60%3B%0A%0A%20%20%20%20%20%20const%20feedback%20%3D%20document.createElement%28%27div%27%29%3B%0A%20%20%20%20%20%20feedback.className%20%3D%20%27copy-feedback%27%3B%0A%0A%20%20%20%20%20%20copyBtn.addEventListener%28%27click%27%2C%20%28%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20if%20%28%21navigator.clipboard%29%20%7B%0A%20%20%20%20%20%20%20%20%20%20//%20fallback%0A%20%20%20%20%20%20%20%20%20%20const%20textArea%20%3D%20document.createElement%28%27textarea%27%29%3B%0A%20%20%20%20%20%20%20%20%20%20textArea.value%20%3D%20code%3B%0A%20%20%20%20%20%20%20%20%20%20document.body.appendChild%28textArea%29%3B%0A%20%20%20%20%20%20%20%20%20%20textArea.select%28%29%3B%0A%20%20%20%20%20%20%20%20%20%20try%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20document.execCommand%28%27copy%27%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20showFeedback%28feedback%29%3B%0A%20%20%20%20%20%20%20%20%20%20%7D%20catch%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20feedback.textContent%20%3D%20%27Failed%20to%20copy%27%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20feedback.classList.add%28%27visible%27%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20setTimeout%28%28%29%20%3D%3E%20feedback.classList.remove%28%27visible%27%29%2C%202000%29%3B%0A%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%20%20document.body.removeChild%28textArea%29%3B%0A%20%20%20%20%20%20%20%20%7D%20else%20%7B%0A%20%20%20%20%20%20%20%20%20%20navigator.clipboard.writeText%28code%29.then%28%28%29%20%3D%3E%20showFeedback%28feedback%29%2C%20%28%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20feedback.textContent%20%3D%20%27Failed%20to%20copy%27%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20feedback.classList.add%28%27visible%27%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20setTimeout%28%28%29%20%3D%3E%20feedback.classList.remove%28%27visible%27%29%2C%202000%29%3B%0A%20%20%20%20%20%20%20%20%20%20%7D%29%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%7D%29%3B%0A%0A%20%20%20%20%20%20function%20showFeedback%28el%29%20%7B%0A%20%20%20%20%20%20%20%20el.textContent%20%3D%20%27Copied%21%27%3B%0A%20%20%20%20%20%20%20%20el.classList.add%28%27visible%27%29%3B%0A%20%20%20%20%20%20%20%20setTimeout%28%28%29%20%3D%3E%20el.classList.remove%28%27visible%27%29%2C%202000%29%3B%0A%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20box.appendChild%28copyBtn%29%3B%0A%20%20%20%20%20%20box.appendChild%28feedback%29%3B%0A%20%20%20%20%20%20box.appendChild%28title%29%3B%0A%20%20%20%20%20%20box.appendChild%28pre%29%3B%0A%20%20%20%20%20%20return%20box%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20function%20saveSnippet%28name%2C%20code%29%20%7B%0A%20%20%20%20%20%20let%20snippets%20%3D%20JSON.parse%28localStorage.getItem%28STORAGE_KEY%29%29%20%7C%7C%20%5B%5D%3B%0A%20%20%20%20%20%20snippets.push%28%7Bname%2C%20code%7D%29%3B%0A%20%20%20%20%20%20localStorage.setItem%28STORAGE_KEY%2C%20JSON.stringify%28snippets%29%29%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20function%20loadSnippets%28%29%20%7B%0A%20%20%20%20%20%20let%20snippets%20%3D%20JSON.parse%28localStorage.getItem%28STORAGE_KEY%29%29%20%7C%7C%20%5B%5D%3B%0A%20%20%20%20%20%20container.innerHTML%20%3D%20%27%27%3B%0A%20%20%20%20%20%20snippets.forEach%28%28%7Bname%2C%20code%7D%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20const%20box%20%3D%20createCodeBox%28name%2C%20code%29%3B%0A%20%20%20%20%20%20%20%20container.appendChild%28box%29%3B%0A%20%20%20%20%20%20%7D%29%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20form.addEventListener%28%27submit%27%2C%20%28e%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20e.preventDefault%28%29%3B%0A%20%20%20%20%20%20const%20code%20%3D%20textarea.value.trim%28%29%3B%0A%20%20%20%20%20%20const%20name%20%3D%20codeNameInput.value.trim%28%29%3B%0A%20%20%20%20%20%20if%20%28%21name%29%20%7B%0A%20%20%20%20%20%20%20%20message.textContent%20%3D%20%27Please%20enter%20a%20name%20for%20your%20code%20snippet.%27%3B%0A%20%20%20%20%20%20%20%20message.style.color%20%3D%20%27red%27%3B%0A%20%20%20%20%20%20%20%20message.style.opacity%20%3D%20%271%27%3B%0A%20%20%20%20%20%20%20%20setTimeout%28%28%29%20%3D%3E%20%28message.style.opacity%20%3D%20%270%27%29%2C%203000%29%3B%0A%20%20%20%20%20%20%20%20codeNameInput.focus%28%29%3B%0A%20%20%20%20%20%20%20%20return%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20if%20%28%21code%29%20%7B%0A%20%20%20%20%20%20%20%20message.textContent%20%3D%20%27Please%20enter%20some%20code.%27%3B%0A%20%20%20%20%20%20%20%20message.style.color%20%3D%20%27red%27%3B%0A%20%20%20%20%20%20%20%20message.style.opacity%20%3D%20%271%27%3B%0A%20%20%20%20%20%20%20%20setTimeout%28%28%29%20%3D%3E%20%28message.style.opacity%20%3D%20%270%27%29%2C%203000%29%3B%0A%20%20%20%20%20%20%20%20textarea.focus%28%29%3B%0A%20%20%20%20%20%20%20%20return%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20saveSnippet%28name%2C%20code%29%3B%0A%20%20%20%20%20%20const%20box%20%3D%20createCodeBox%28name%2C%20code%29%3B%0A%20%20%20%20%20%20container.appendChild%28box%29%3B%0A%20%20%20%20%20%20textarea.value%20%3D%20%27%27%3B%0A%20%20%20%20%20%20codeNameInput.value%20%3D%20%27%27%3B%0A%20%20%20%20%20%20codeNameInput.focus%28%29%3B%0A%20%20%20%20%20%20message.textContent%20%3D%20%27Code%20snippet%20added%21%27%3B%0A%20%20%20%20%20%20message.style.color%20%3D%20%27%234ade80%27%3B%0A%20%20%20%20%20%20message.style.opacity%20%3D%20%271%27%3B%0A%20%20%20%20%20%20setTimeout%28%28%29%20%3D%3E%20%28message.style.opacity%20%3D%20%270%27%29%2C%203000%29%3B%0A%20%20%20%20%7D%29%3B%0A%0A%20%20%20%20loadSnippets%28%29%3B%0A%20%20%7D%29%3B%0A%3C/script%3E%0A%3C/body%3E%0A%3C/html%3E%0A"));
-//-->
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('codeForm');
+    const textarea = document.getElementById('codeInput');
+    const codeNameInput = document.getElementById('codeName');
+    const container = document.getElementById('codeBoxesContainer');
+    const message = document.getElementById('message');
+
+    const STORAGE_KEY = 'savedCodeSnippetsWithName';
+
+    function createCodeBox(name, code) {
+      const box = document.createElement('div');
+      box.className = 'code-box';
+      box.setAttribute('tabindex', '0');
+      box.setAttribute('aria-label', `Code snippet titled ${name}`);
+
+      const title = document.createElement('div');
+      title.style.fontWeight = "700";
+      title.style.marginBottom = "0.5rem";
+      title.style.color = "#fff";
+      title.style.fontSize = "1.125rem";
+      title.textContent = name;
+
+      const pre = document.createElement('pre');
+      pre.textContent = code;
+
+      const copyBtn = document.createElement('button');
+      copyBtn.type = 'button';
+      copyBtn.className = 'copy-button';
+      copyBtn.setAttribute('aria-label', `Copy code snippet titled ${name} to clipboard`);
+      copyBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-3-3v6m-4 4h10a2 2 0 002-2V7a2 2 0 00-2-2h-3l-2-2h-3a2 2 0 00-2 2v3" />
+        </svg>`;
+
+      const feedback = document.createElement('div');
+      feedback.className = 'copy-feedback';
+
+      copyBtn.addEventListener('click', () => {
+        if (!navigator.clipboard) {
+          const textArea = document.createElement('textarea');
+          textArea.value = code;
+          document.body.appendChild(textArea);
+          textArea.focus();
+          textArea.select();
+          try {
+            document.execCommand('copy');
+            showFeedback(feedback);
+          } catch {
+            feedback.textContent = 'Failed to copy';
+            feedback.classList.add('visible');
+            setTimeout(() => feedback.classList.remove('visible'), 2000);
+          }
+          document.body.removeChild(textArea);
+        } else {
+          navigator.clipboard.writeText(code).then(() => showFeedback(feedback), () => {
+            feedback.textContent = 'Failed to copy';
+            feedback.classList.add('visible');
+            setTimeout(() => feedback.classList.remove('visible'), 2000);
+          });
+        }
+      });
+
+      function showFeedback(el) {
+        el.textContent = 'Copied!';
+        el.classList.add('visible');
+        setTimeout(() => el.classList.remove('visible'), 2000);
+      }
+
+      box.appendChild(copyBtn);
+      box.appendChild(feedback);
+      box.appendChild(title);
+      box.appendChild(pre);
+      return box;
+    }
+
+    function saveSnippet(name, code) {
+      let snippets = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+      snippets.push({name, code});
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(snippets));
+    }
+
+    function loadSnippets() {
+      let snippets = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+      container.innerHTML = '';
+      snippets.forEach(({name, code}) => {
+        const box = createCodeBox(name, code);
+        container.appendChild(box);
+      });
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const code = textarea.value.trim();
+      const name = codeNameInput.value.trim();
+      if (!name) {
+        message.textContent = 'Please enter a name for your code snippet.';
+        message.style.color = 'red';
+        message.style.opacity = '1';
+        setTimeout(() => (message.style.opacity = '0'), 3000);
+        codeNameInput.focus();
+        return;
+      }
+      if (!code) {
+        message.textContent = 'Please enter some code.';
+        message.style.color = 'red';
+        message.style.opacity = '1';
+        setTimeout(() => (message.style.opacity = '0'), 3000);
+        textarea.focus();
+        return;
+      }
+      saveSnippet(name, code);
+      const box = createCodeBox(name, code);
+      container.appendChild(box);
+      textarea.value = '';
+      codeNameInput.value = '';
+      codeNameInput.focus();
+      message.textContent = 'Code snippet added!';
+      message.style.color = '#4ade80';
+      message.style.opacity = '1';
+      setTimeout(() => (message.style.opacity = '0'), 3000);
+    });
+
+    loadSnippets();
+  });
 </script>
+</body>
+</html>
