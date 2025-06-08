@@ -1,14 +1,1 @@
-[
-  {
-    "name": "Hello World",
-    "code": "console.log('Hello, world!');"
-  },
-  {
-    "name": "Add Function",
-    "code": "function add(a, b) { return a + b; }"
-  },
-  {
-    "name": "pixpic - upscale",
-    "code": "case'pixpic': {\n let q = m.quoted"
-  }
-]
+[]
