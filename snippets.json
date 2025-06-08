@@ -1,1 +1,6 @@
-[]
+[
+  {
+    "name": "pixpic - upscale",
+    "code": "case'pixpic': {\n let q = m.quoted || m\n let mime = (q.msg || q).mimetype || ''\n if (!/image/.test(mime)) return m.reply('❌ Balas gambar dengan perintah *pixpic* untuk meningkatkan kualitasnya.')\n try {\n await conn.sendMessage(m.chat, { react: { text: '🕒', key: m.key } })\n let imgBuffer = await q.download()\n const FormData = require('form-data')\n const form = new FormData()\n form.append('reqtype', 'fileupload')\n form.append('fileToUpload', imgBuffer, 'image.png')\n const upload = await axios.post('https://catbox.moe/user/api.php', form, {\n headers: form.getHeaders()\n })\n if (!upload.data || !upload.data.includes('https://')) return m.reply('❌ Gagal upload ke Catbox.')\n let imageUrl = upload.data.trim()\n await conn.sendMessage(m.chat, { react: { text: '⚙️', key: m.key } })\n const res = await fetch(`https://api.nekorinn.my.id/tools/pxpic-upscale?imageUrl=${encodeURIComponent(imageUrl)}`)\n const json = await res.json()\n if (!json.result) return m.reply('❌ Gagal memproses gambar.')\n await conn.sendMessage(m.chat, {\n image: { url: json.result },\n caption: '💯 *Image quality improved (HD)*',\n }, { quoted: m })\n } catch (err) {\n console.error(err)\n m.reply('❌ Terjadi kesalahan saat memproses gambar.')\n }\n}\nbreak"
+  }
+]
