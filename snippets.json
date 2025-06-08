@@ -6,5 +6,5 @@
   {
     "name": "carbonify",
     "code": "case 'carbonify':\ncase 'carbon': {\n if (!text) return m.reply('❌ Masukkan kodenya, contoh:\\n.carbonify console.log(\"Hello World!\")');\n\n try {\n const url = `https://api.nekorinn.my.id/maker/carbonify?code=${encodeURIComponent(text)}`;\n await conn.sendMessage(m.chat, {\n image: { url },\n caption: `🧾 Hasil Carbonify dari kode:\\n\\n\\`\\`\\`${text}\\`\\`\\``,\n footer: 'Carla Assistant'\n }, { quoted: m });\n } catch (e) {\n console.error(e);\n m.reply('❌ Gagal memproses permintaan.');\n }\n}\nbreak;"
-  },
+  }
 ]
